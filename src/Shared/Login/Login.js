@@ -4,10 +4,12 @@ import TextField from '@mui/material/TextField';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginImg from '../../assets/images/login.png';
+import useFirebase from '../../hooks/useFirebase';
 import Navigation from '../Navigation/Navigation';
 
 const Login = () => {
     const [loginData, setLoginData] = useState({});
+    const {loginWithCustomUser} = useFirebase();
     const handleOnChange = (e) => {
         const field = e.target.name;
         const value = e.target.value;
@@ -21,7 +23,7 @@ const Login = () => {
     }
     const handleFormSubmit = (e) => {
         e.preventDefault()
-        alert("Logged in!")
+        loginWithCustomUser(loginData.email, loginData.password);
     }
     return (
         <>

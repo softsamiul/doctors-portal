@@ -4,10 +4,12 @@ import TextField from '@mui/material/TextField';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginImg from '../../../assets/images/login.png';
+import useFirebase from '../../../hooks/useFirebase';
 import Navigation from '../../Navigation/Navigation';
 
 const Register = () => {
     const [loginData, setLoginData] = useState({});
+    const {createNewUser, isLoading} = useFirebase();
     const handleOnChange = (e) => {
         const field = e.target.name;
         const value = e.target.value;
@@ -24,7 +26,7 @@ const Register = () => {
             return;
         }
         e.preventDefault()
-        alert("Registered!")
+        createNewUser(loginData.email, loginData.password);
     }
     return (
         <>
@@ -36,7 +38,7 @@ const Register = () => {
                         <Typography variant="h5">
                             Login
                         </Typography>
-                        <form onSubmit={handleFormSubmit}>
+                        { !isLoading && <form onSubmit={handleFormSubmit}>
                             <TextField 
                                 sx={{width:"75%", mb:2}}
                                 id="standard-basic"
@@ -72,7 +74,8 @@ const Register = () => {
                             <Link to="login">
                                 <Button variant="text">Already registered? Login here</Button>
                             </Link>
-                        </form>
+                        </form>}
+
 
                     </Grid>
                     <Grid item xs={12} md={6}>
